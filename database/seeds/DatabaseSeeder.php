@@ -1,0 +1,22 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
+    {
+       //  $this->call(UserTableSeeder::class);
+       // $this->call(AdminTableSeeder::class);
+        // $this->call(SectionsTableSeeder::class);
+         //$this->call(CategoryTableSeeder::class);
+        //  $this->call(MasterproductTableSeeder::class);
+           $this->call(PackageTableSeeder::class);
+        
+    }
+}
