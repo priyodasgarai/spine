@@ -16,7 +16,10 @@ class DatabaseSeeder extends Seeder
         // $this->call(SectionsTableSeeder::class);
          //$this->call(CategoryTableSeeder::class);
         //  $this->call(MasterproductTableSeeder::class);
-           $this->call(PackageTableSeeder::class);
+         //  $this->call(PackageTableSeeder::class);
+         
+         // $this->call(programTableSeeder::class);
+          $this->call(packageprogramTableSeeder::class);
         
     }
 }

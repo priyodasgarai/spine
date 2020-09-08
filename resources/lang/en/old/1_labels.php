@@ -44,7 +44,7 @@ return [
 41 => 'Meta Keywords' ,
 42 => 'Amount' ,
 43 => 'Description' ,
-44 => 'Details' ,
+44 => ' ' ,
 45 => ' ' ,
 46 => ' ' ,
 47 => ' ' ,

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use App\Model\Program;
+use App\Model\Packageprogram;
 
 class PackageController extends Controller
 {
@@ -110,5 +112,48 @@ class PackageController extends Controller
             }
         }     
         return view('Admin-view.Packages.add_edit_package')->with(compact('title', 'Packagedata'));
+    }
+    public function packageDetails($id){      
+            $val = explode("||", base64_decode($id));
+            $Package_id = $val[0]; 
+            $package = Package::with(['programs'])->where('id',$Package_id)->first();  
+            $programs = Program::where('status',1)->get(); 
+           // dd($package);
+            return view('Admin-view.Packages.packagedetails')->with(compact('package', 'programs'));
+    }
+    public function deletePackageProgram($id){
+     //   dd('df');
+         $val = explode("||", base64_decode($id));
+            $Package_id = $val[2]; 
+             $Program_id = $val[0]; 
+             $condition = array('package_id'=>$Package_id , 'program_id'=>$Program_id);
+          //   dd($condition);
+            Packageprogram::where($condition)->delete();
+            return redirect()->back()->with('success_message', trans('messages.8'));
+    }
+    public function addPackageProgram(Request $request){
+        if ($request->ajax()) {
+            $data = $request->all();
+           // dd($data);
+           // Package::where('id', $data['package_id'])->update(['status' => $data['status']]);
+            if(is_array($data['program_id'])){
+               
+                foreach($data['program_id'] as $program_id){
+                    $Packageprogram = new Packageprogram;
+                    $Packageprogram->package_id = $data['package_id'];
+                    $Packageprogram->program_id = $program_id;
+                    $result = $Packageprogram->save();
+                } 
+            }
+            $this->result = true;
+            $this->message = trans('messages.5');
+        } else {
+            $this->result = FALSE;
+            $this->message = trans('messages.6');
+        }
+        return Response::make([
+                    'result' => $this->result,
+                    'message' => $this->message
+        ]);
     }
 }

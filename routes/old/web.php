@@ -24,15 +24,12 @@ Route::get('/blank', function () {
  //Route::get('/','Buy_Sell\web\homecontroller@index');
  
 Route::group(["namespace"=>"application\WEB"],function(){    
-    Route::get('/','WebController@index');
-    Route::get('/login','WebController@weblogin');
+    Route::match(['get'],'/','WebController@index');
+    Route::match(['get'],'/login','WebController@weblogin');
     Route::post('post-login','WebController@postLogin');
-    Route::match(['get','post'],'/registration','WebController@registration');
      
       Route::group(['middleware'=>['web_check']],function(){
-        Route::get('/Home','WebController@home');
-        Route::get('/logout','WebController@logout');
-        Route::get('/profile','WebController@profile');
+          Route::get('/Home','WebController@home');
       });
 });
 
@@ -58,15 +55,8 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function(){
             Route::post('update-package-status','PackageController@updatePackageStatus');
             Route::match(['get','post'],'add-edit-package/{id?}','PackageController@addEditPackage');          
             Route::get('delete-package-image-{id}', 'PackageController@deletePackageImage');
-            Route::get('delete-package-{id}', 'PackageController@deletePackage'); 
-            Route::get('package-details-{id}', 'PackageController@packageDetails');
-            Route::get('package-program-delete-{id}', 'PackageController@deletePackageProgram');
-            Route::post('package-program-add', 'PackageController@addPackageProgram');
-   /****************************************Program**********************************************/    
-            Route::get('program','ProgramController@allProgram');
-            Route::post('update-program-status','ProgramController@updateProgramStatus');
-            Route::match(['get','post'],'add-edit-program/{id?}','ProgramController@addEditProgram');
-            Route::get('delete-program-{id}', 'ProgramController@deleteProgram');      
+            Route::get('delete-package-{id}', 'PackageController@deletePackage');    
+     
             
         });
 	

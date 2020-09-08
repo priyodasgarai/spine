@@ -126,14 +126,14 @@
                             </ul>
                         </li>
                         
-                         @if(Session::get('page')== "package")
+                         @if(Session::get('page')== "package" || Session::get('page')== "program")
                         <?php  $active = "active"; ?>
                         @else
                         <?php $active = ""; ?>
                         @endif  
                         <li class="treeview nav-link {{$active}} ">
                             <a href="#">
-                                <i class="fa fa-th"></i> <span>Package</span>
+                                <i class="fa fa-th"></i> <span>Products</span>
                                 <span class="pull-right-container">
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
@@ -145,6 +145,12 @@
                                 <?php $active = ""; ?>
                                 @endif  
                                 <li class="nav-link {{$active}}"><a href="{{url('admin/package')}}"><i class="fa fa-circle-o"></i>Packags</a></li>
+                                @if(Session::get('page')== "program")
+                                <?php $active = "active"; ?>
+                                @else
+                                <?php $active = ""; ?>
+                                @endif  
+                                <li class="nav-link {{$active}}"><a href="{{url('admin/program')}}"><i class="fa fa-circle-o"></i>Program</a></li>
                                
                             
                             </ul>
