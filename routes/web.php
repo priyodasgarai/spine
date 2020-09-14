@@ -53,6 +53,13 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function(){
             Route::match(['get','post'],'add-edit-user/{id?}','UserController@addEditUser');          
             Route::get('delete-user-image-{id}', 'UserController@deleteUserImage');
             Route::get('delete-user-{id}', 'UserController@deleteUser');
+            Route::get('user-details-{id}', 'UserController@userDetails');
+            Route::get('user-package-delete-{id}', 'UserController@deleteUserPackage');
+            Route::post('user-package-add', 'UserController@addUserPackage');
+            
+            
+            
+            
      /****************************************Sections**********************************************/    
             Route::get('package','PackageController@allPackage');
             Route::post('update-package-status','PackageController@updatePackageStatus');

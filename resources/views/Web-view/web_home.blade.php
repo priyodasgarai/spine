@@ -1,4 +1,4 @@
-@extends('../../master-layout/front_master')
+@extends('../../master-layout/web_master')
 
 
 @section('title')
@@ -7,7 +7,7 @@
 
 
 
-@section('main-content')
+@section('container')
  <section class="block ">
                 <div class="container">
                     <div class="block">

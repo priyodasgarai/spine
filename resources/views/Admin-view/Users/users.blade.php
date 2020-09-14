@@ -70,7 +70,11 @@
                         <a class="btn btn-mini primary" onclick="change_user_status('{{base64_encode(env('APP_KEY').'||'.$data->id)}}')" >
                             <i class="fa fa-circle"></i> {{trans('labels.26')}}     
                         </a>
-                        @endif  
+                        @endif 
+                         &nbsp;&nbsp;
+                         <a href="{{ url('/admin/user-details-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
+                            <i class="fa fa-bookmark"></i> {{trans('labels.44')}}
+                        </a>
                         &nbsp;&nbsp;
                         <a href="{{ url('/admin/add-edit-user/'.base64_encode($data->id.'||'.env('APP_KEY')))}}"   class="btn btn-mini mergin_one" >
                             <i class="fa fa-edit"></i> {{trans('labels.28')}}

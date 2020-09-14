@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use App\Model\Package;
+use App\Model\Userpackage;
 
 class UserController extends Controller
 {
@@ -122,6 +124,55 @@ class UserController extends Controller
             User::where('id',$user_id)->update(['image'=>""]);
             return redirect()->back()->with('success_message', trans('messages.20'));
             
+    }
+    public function userDetails($id){      
+            $val = explode("||", base64_decode($id));
+            $user_id = $val[0]; 
+            $user_package = User::with(['packages'])->where('id',$user_id)->first();  
+           $id = array();
+            if(!empty($user_package->packages)){
+                 foreach($user_package->packages as $data){
+                     $id[] =  $data->id;
+                 }
+            }            
+            $packages = Package::whereNotIn('id',$id )->where('status',1)->get();
+            //dd($packages);
+            return view('Admin-view.Users.userdetails')->with(compact('packages', 'user_package'));
+    }
+     public function deleteUserPackage($id){
+     //   dd('df');
+         $val = explode("||", base64_decode($id));
+            $User_id = $val[2]; 
+             $Package_id = $val[0]; 
+             $condition = array('package_id'=>$Package_id , 'user_id'=>$User_id);
+          //   dd($condition);
+            Userpackage::where($condition)->delete();
+            return redirect()->back()->with('success_message', trans('messages.8'));
+    }
+     public function addUserPackage(Request $request){
+        if ($request->ajax()) {
+            $data = $request->all();
+           // dd($data);
+           // Package::where('id', $data['package_id'])->update(['status' => $data['status']]);
+            if(is_array($data['package_id'])){
+               
+                foreach($data['package_id'] as $package_id){
+                    $Userpackage = new Userpackage;
+                    $Userpackage->user_id = $data['user_id'];
+                    $Userpackage->package_id = $package_id;
+                    $this->result = $Userpackage->save();
+                } 
+            }
+            $this->result = true;
+            $this->message = trans('messages.5');
+        } else {
+            $this->result = FALSE;
+            $this->message = trans('messages.6');
+        }
+        return Response::make([
+                    'result' => $this->result,
+                    'message' => $this->message
+        ]);
     }
 
 }

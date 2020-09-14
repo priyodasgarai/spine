@@ -11,7 +11,7 @@
             <section class="block">
                 
                 <div class="container">
-                    @if(Session::has('flash_message'))
+   @if(Session::has('flash_message'))
     <div class="alert alert-info">
         <a class="close" data-dismiss="alert">×</a>
         {{Session::get('flash_message')}}<strong> !</strong> 

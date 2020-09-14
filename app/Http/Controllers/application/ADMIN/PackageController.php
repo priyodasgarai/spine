@@ -117,8 +117,15 @@ class PackageController extends Controller
             $val = explode("||", base64_decode($id));
             $Package_id = $val[0]; 
             $package = Package::with(['programs'])->where('id',$Package_id)->first();  
-            $programs = Program::where('status',1)->get(); 
-           // dd($package);
+           
+            $id = array();
+            if(!empty($package->programs)){
+                 foreach($package->programs as $data){
+                     $id[] =  $data->id;
+                 }
+            }  
+            $programs = Program::whereNotIn('id',$id )->where('status',1)->get(); 
+          //  dd($programs);
             return view('Admin-view.Packages.packagedetails')->with(compact('package', 'programs'));
     }
     public function deletePackageProgram($id){

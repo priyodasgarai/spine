@@ -154,7 +154,7 @@
                                
                             
                             </ul>
-                        </li>
+                        </li>                       
  @if(Session::get('page')== "user")
                         <?php  $active = "active"; ?>
                         @else
@@ -162,7 +162,7 @@
                         @endif  
 <li class="nav-link {{$active}}">
                             <a href="{{url('admin/users')}}">
-                                <i class="fa fa-user"></i> <span>User</span>                                
+                                <i class="fa fa-user"></i> <span>Patient</span>                                
                             </a>                           
                         </li>
 

@@ -53,7 +53,7 @@
               <ul class="list-group list-group-unbordered">
                   
                   
-                   <table id="programs" class="table table-bordered table-striped">
+                   <table id="Assign_Programs" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -120,7 +120,7 @@
     <!-- /.box-header -->           
     @if(!empty($programs))
     <div class="box-body">
-        <table id="programs" class="table table-bordered table-striped">
+        <table id="All_Programs" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -228,49 +228,25 @@
 <script>
 $(function () {
 
-$('#category').DataTable({
+$('#Assign_Programs').DataTable({
 'paging': true,
         'lengthChange': true,
-        'searching': true,
+        'searching': false,
         'ordering': true,
         'info': true,
         'autoWidth': true
-})
-        })
-function change_package_status(id){
-                var dec = window.atob(id);
-                var res = dec.split('||');
-                var data_id = res[1];
-                var data_details = $("#package_details_" + data_id).val();
-                var output = $.parseJSON(data_details);
-        if (output.status == 1){
-            var status = 0;
-            } else{
-            var status = 1;
-            }
-$.post('update-package-status',
-{
-        "_token": "{{ csrf_token() }}",
-        package_id: data_id,
-        status: status
-}, function (data, status, xhr) {
-//console.log(data);
-if (data.result == true) {
-swal("{{trans('messages.1')}}", data.message, "success");
-        window.location.href = 'package';
-} else{
-swal("{{trans('messages.4')}}", data.message, "error");
-        window.location.href = 'package';
-}
 });
-        /*  .done(function() { 
-         alert('Request done!'); 
-         }).fail(function(jqxhr, settings, ex) { 
-         alert('failed, ' + ex); 
-         }); */
-}
-
-
+  $('#All_Programs').DataTable({
+'paging': true,
+        'lengthChange': true,
+        'searching': false,
+        'ordering': true,
+        'info': true,
+        'autoWidth': true
+});      
+    
+    
+    })
 
 
     $(document).ready(function (){

@@ -19,7 +19,8 @@ class WebController extends Controller
 //         if(Auth::guard('web')->check()){
 //            return redirect('/Home');
 //        }
-      return view('Web-view.web_login');
+   //   return view('Web-view.web_login');
+          return view('Web-view.web_login');
     }
     public function logout(){
          Auth::guard('web')->logout();
