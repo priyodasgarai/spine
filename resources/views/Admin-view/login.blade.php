@@ -34,21 +34,39 @@
   <div class="login-logo">
       <a href="#"> <b>{{trans('labels.4')}}</b> </a>
   </div>
-    @if(Session::has('flash_message'))
-    <div class="alert alert-info">
-        <a class="close" data-dismiss="alert">×</a>
-        {{Session::get('flash_message')}}<strong> !</strong> 
-        {{Session::forget('flash_message')}}
-    </div>
-    @endif
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+    @if(Session::has('flash_message'))  
+<div class="alert alert-danger alert-dismissable show" role="alert">     
+    {{Session::get('flash_message')}}
+    <button type="button" class="close" data-dismiss="alert" aris-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    {{Session::forget('flash_message')}}
+</div>
+@endif
+@if(Session::has('success_message'))
+<div class="alert alert-success alert-dismissable" role="alert">  
+    {{Session::get('success_message')}}
+    <button type="button" class="close" data-dismiss="alert" aris-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>    
+</div>
+@endif
+@if(Session::has('error_message'))
+<div class="alert alert-danger alert-dismissable show" role="alert">     
+    {{Session::get('error_message')}}
+    <button type="button" class="close" data-dismiss="alert" aris-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+@endif
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
   <!-- /.login-logo -->
   <div class="login-box-body">

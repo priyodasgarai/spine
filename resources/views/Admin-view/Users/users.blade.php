@@ -71,10 +71,10 @@
                             <i class="fa fa-circle"></i> {{trans('labels.26')}}     
                         </a>
                         @endif 
-                         &nbsp;&nbsp;
+<!--                         &nbsp;&nbsp;
                          <a href="{{ url('/admin/user-details-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
                             <i class="fa fa-bookmark"></i> {{trans('labels.44')}}
-                        </a>
+                        </a>-->
                         &nbsp;&nbsp;
                         <a href="{{ url('/admin/add-edit-user/'.base64_encode($data->id.'||'.env('APP_KEY')))}}"   class="btn btn-mini mergin_one" >
                             <i class="fa fa-edit"></i> {{trans('labels.28')}}

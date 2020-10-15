@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use App\Model\Package;
 use App\Model\Userpackage;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -101,7 +102,7 @@ class UserController extends Controller
             $data = $request->all();
             $User->name = $data['name'];
             $User->email = $data['email'];    
-           // $User->password = '$2y$10$L7xEFZzwRDJyirtwnkScy.JTySjt5Pis1OZ1keCqjBXtKQ0aeSl16';    
+            $User->password = Hash::make(123456);;    
             $User->status = 1;
             $result = $User->save();
             if ($result == true) {

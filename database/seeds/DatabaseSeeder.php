@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
          // $this->call(programTableSeeder::class);
        //   $this->call(packageprogramTableSeeder::class);
        // $this->call(userpackageTableSeeder::class);
-        $this->call(userpackageTimeslotTableSeeder::class);
+       // $this->call(userpackageTimeslotTableSeeder::class);
+        $this->call(libraryTableSeeder::class);
         
     }
 }

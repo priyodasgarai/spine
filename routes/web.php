@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/blank', function () {
     return view('Admin-view.blank');
@@ -24,10 +24,10 @@ Route::get('/blank', function () {
  //Route::get('/','Buy_Sell\web\homecontroller@index');
  
 Route::group(["namespace"=>"application\WEB"],function(){    
-    Route::get('/','WebController@index');
-    Route::get('/login','WebController@weblogin');
+    Route::get('/','WebController@weblogin');
+   // Route::get('/login','WebController@weblogin');
     Route::post('post-login','WebController@postLogin');
-    Route::match(['get','post'],'/registration','WebController@registration');
+    Route::match(['get','post'],'/registration/{id?}','WebController@registration');
      
       Route::group(['middleware'=>['web_check']],function(){
         Route::get('/Home','WebController@home');
@@ -74,6 +74,12 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function(){
             Route::post('update-program-status','ProgramController@updateProgramStatus');
             Route::match(['get','post'],'add-edit-program/{id?}','ProgramController@addEditProgram');
             Route::get('delete-program-{id}', 'ProgramController@deleteProgram');      
+    /****************************************Library**********************************************/    
+            Route::get('library','LibraryController@allLibrary');
+            Route::post('update-library-status','LibraryController@updateLibraryStatus');
+            Route::match(['get','post'],'add-edit-library/{id?}','LibraryController@addEditLibrary');
+            Route::get('delete-library-{id}', 'LibraryController@deleteLibrary');      
+            
             
         });
 	

@@ -13,25 +13,29 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 
-class WebController extends Controller
-{
+class WebController extends Controller {
+
     public function weblogin() {
-//         if(Auth::guard('web')->check()){
-//            return redirect('/Home');
-//        }
-   //   return view('Web-view.web_login');
-          return view('Web-view.web_login');
-    }
-    public function logout(){
-         Auth::guard('web')->logout();
-        return redirect('/');
-    }
-    public function profile(){
-        
+        if (Auth::guard('web')->check()) {
+            return redirect('/Home');
+        }
+        //   return view('Web-view.web_login');
+        return view('Web-view.web_login');
     }
 
-    public function postLogin(Request $request){
-        if ($request->isMethod('post')) {          
+    public function logout() {
+        Auth::guard('web')->logout();
+        return redirect('/');
+    }
+
+    public function profile() {
+        $userDetails = Auth::guard('web')->user();
+        //dd($userDetails->id);
+        return view('Web-view.profile', ['userDetails' => $userDetails]);
+    }
+
+    public function postLogin(Request $request) {
+        if ($request->isMethod('post')) {
             $rules = [
                 'email' => 'required|email|max:150',
                 'password' => 'required',
@@ -42,32 +46,46 @@ class WebController extends Controller
                 'password.required' => 'Password is required',
             ];
             $this->validate($request, $rules, $customMessages);
-            $credentials = array('email' => $request['email'], 'password' => $request['password']);        
+            $credentials = array('email' => $request['email'], 'password' => $request['password']);
             if (Auth::guard('web')->attempt($credentials)) {
                 return redirect('/Home');
             } else {
-                return redirect()->back()->with('flash_message', trans('messages.10'));             
+                return redirect()->back()->with('flash_message', trans('messages.10'));
             }
-        }    
-         return redirect()->back()->with('flash_message', trans('messages.10'));    
+        }
+        return redirect()->back()->with('flash_message', trans('messages.10'));
     }
-    public function registration(Request $request , $id = null){
-         if ($request->isMethod('post')) {
-            // dd($request->all());
-             $User = new User();
-             $validator = Validator::make($request->all(), [
-                        'name' => 'required',                       
-                        "email" => 'required|email',                       
-                        "image" => 'image|mimes:jpeg,png,jpg,gif,svg|max:5048',
-                        "confirm_password" => 'required', 
+
+    public function registration(Request $request, $id = null) {
+        if ($request->isMethod('post')) {  
+             $data = $request->all();
+             if ($id == "") {
+                 $User = new User();
+            $validator = Validator::make($request->all(), [
+                        'name' => 'required',
+                        "email" => 'required|email',                     
+                        "confirm_password" => 'required',
                         'password' => 'required|min:6|required_with:confirm_password|same:confirm_password',
             ]);
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator);
+                return redirect()->back()->withInput()->withErrors($validator);
             }
-            //$image_name = "";
-            // dd($request->all());
-            if ($request->hasFile('image')) {
+                $User->email = $data['email'];
+                $User->password = Hash::make($data['password']);
+                $User->name = $data['name'];
+                $User->status = 1;
+                $result = $User->save();
+
+                if ($result == true) {
+                    return redirect('/')->with('success_message', trans('messages.22'));
+                } else {
+                    return redirect()->back()->with('Error', trans('messages.23'));
+                }
+                
+             }else{
+               $User = User::findOrFail(Auth::guard('web')->user()->id);  
+               
+               if ($request->hasFile('image')) {
                 $image_temp = $request->file('image');
                 if ($image_temp->isValid()) {
                     /* get  Image Extension */
@@ -78,34 +96,42 @@ class WebController extends Controller
                     $imagePath = $destinationPath . $image_name;
                     /* Upload the Image */
                     Image::make($image_temp)->resize(300, 400)->save($imagePath);
-                    $User->image = $image_name;                    
-                   
+                    $User->image = $image_name;
                 }
-                $data = $request->all();
-            $User->name = $data['name'];
-            $User->email = $data['email'];    
-            $User->password = Hash::make($data['password']);    
-            $User->status = 1;
-            $result = $User->save();       
-            
-            if ($result == true) {
-                return redirect('/')->with('success_message', trans('messages.22'));
-            } else {
-                return redirect()->back()->with('success', trans('messages.23'));
+                
             }
-         } 
-         
-                    }
-         return view('Web-view.registration');
+                $User->address = (isset($data['address']))?$data['address']:$User->address;
+                $User->name = (isset($data['name']))?$data['name']:$User->name;
+                $User->date_of_birth = (isset($data['date_of_birth']))?$data['date_of_birth']:$User->date_of_birth;
+                $User->city = (isset($data['city']))?$data['city']:$User->city;
+                $User->contact_number_1 = (isset($data['contact_number_1']))?$data['contact_number_1']:$User->contact_number_1;
+                $User->contact_number_2 = (isset($data['contact_number_2']))?$data['contact_number_2']:$User->contact_number_2;
+                $User->gender = (isset($data['gender']))?$data['gender']:$User->gender;
+                $User->UT = (isset($data['UT']))?$data['UT']:$User->UT;
+               //dd($User);
+                $result = $User->save();
+
+                if ($result == true) {
+                    return redirect('/Home')->with('success_message', trans('messages.22'));
+                } else {
+                    return redirect()->back()->with('Error', trans('messages.23'));
+                }
+             }         
+               
+                
+                
+        }
+        return view('Web-view.web_register');
     }
-    
-                   
-    public function index(){
-         return view('Web-view.index');
+
+//    public function index(){
+//        
+//         return view('Web-view.dashboard');
+//        //return Auth::guard('web')->user();
+//    }
+    public function home() {
+        return view('Web-view.dashboard');
         //return Auth::guard('web')->user();
     }
-    public function home(){
-         return view('Web-view.index');
-        //return Auth::guard('web')->user();
-    }
+
 }

@@ -46,14 +46,25 @@
                     <!-- Sidebar toggle button-->
 
                     <div class="navbar-custom-menu">
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-
-                            </div>
-                            <div class="col-md-6">
-                                <a href="{{url('admin/logout')}}"  class="fa fa-lock btn-sm text-bold text-red">Logout</a>
-                            </div>
-                        </div>
+                          <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav"> 
+<!--                            <li>
+                                <a href="#">
+                                    <i class="fa fa-shopping-cart text-justify"></i>                     
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user text-justify"></i>                     
+                                </a>
+                            </li>-->
+                            <li>
+                                <a href="{{url('admin/logout')}}">
+                                    <i class="fa fa-sign-out text-justify"></i>  Logout                    
+                                </a>
+                            </li>                          
+                        </ul>
+                    </div>                       
                     </div>
                 </nav>
 
@@ -126,7 +137,7 @@
                             </ul>
                         </li>
                         
-                         @if(Session::get('page')== "package" || Session::get('page')== "program")
+<!--                         @if(Session::get('page')== "package" || Session::get('page')== "program")
                         <?php  $active = "active"; ?>
                         @else
                         <?php $active = ""; ?>
@@ -154,7 +165,7 @@
                                
                             
                             </ul>
-                        </li>                       
+                        </li>                       -->
  @if(Session::get('page')== "user")
                         <?php  $active = "active"; ?>
                         @else
@@ -163,6 +174,16 @@
 <li class="nav-link {{$active}}">
                             <a href="{{url('admin/users')}}">
                                 <i class="fa fa-user"></i> <span>Patient</span>                                
+                            </a>                           
+                        </li>
+                        @if(Session::get('page')== "library")
+                        <?php  $active = "active"; ?>
+                        @else
+                        <?php $active = ""; ?>
+                        @endif  
+<li class="nav-link {{$active}}">
+                            <a href="{{url('admin/library')}}">
+                                <i class="fa fa-book"></i> <span>Library</span>                                
                             </a>                           
                         </li>
 
@@ -192,7 +213,7 @@
                 <div class="pull-right hidden-xs">
                     <b>Version</b> N/A
                 </div>
-                <strong>Copyright &copy; 2020-2025 <a href="#">Priyodas Garai</a>.</strong> All rights
+                <strong>Copyright &copy; 2020-2025 <a href="#">Quadrant Systems</a>.</strong> All rights
                 reserved.
             </footer>
 
