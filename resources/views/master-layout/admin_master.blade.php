@@ -59,6 +59,11 @@
                                 </a>
                             </li>-->
                             <li>
+                                <a href="{{url('admin/update-admin-details')}}">
+                                    <i class="fa fa-user text-justify"></i> Profile                     
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{url('admin/logout')}}">
                                     <i class="fa fa-sign-out text-justify"></i>  Logout                    
                                 </a>
@@ -186,6 +191,34 @@
                                 <i class="fa fa-book"></i> <span>Library</span>                                
                             </a>                           
                         </li>
+                        
+                      
+                         <li class="nav-link">
+                            <a href="{{url('admin/social-media')}}">
+                                <i class="fa fa-empire"></i> <span>Manage Social Media Ads</span>                                
+                            </a>                           
+                        </li>
+                        <li class="nav-link">
+                            <a href="{{url('admin/products')}}">
+                                <i class="fa fa-empire"></i> <span>Manage Products</span>                                
+                            </a>                           
+                        </li>
+                         <li class="nav-link">
+                            <a href="{{url('admin/orders')}}">
+                                <i class="fa fa-empire"></i> <span>Manage Orders</span>                                
+                            </a>                           
+                        </li>
+                         <li class="nav-link">
+                            <a href="{{url('admin/virtual-meeting')}}">
+                                <i class="fa fa-empire"></i> <span>Manage Virtual Meeting</span>                                
+                            </a>                           
+                        </li>
+                        <li class="nav-link">
+                            <a href="{{url('admin/tasks')}}">
+                                <i class="fa fa-empire"></i> <span>Manage Tasks List</span>                                
+                            </a>                           
+                        </li>  
+                        
 
                     </ul>               
                 </section>

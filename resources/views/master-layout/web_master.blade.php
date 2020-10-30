@@ -35,7 +35,7 @@
 
             <header class="main-header">
                 <!-- Logo -->
-                <a href="{{url('admin/dashboard')}}" class="logo">
+                <a href="{{url('/')}}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>T</b>TA</span>
                     <!-- logo for regular state and mobile devices -->
@@ -59,7 +59,7 @@
                                 </a>
                             </li>-->
                             <li>
-                                <a href="{{url('profile')}}">
+                                <a href="{{url('user-details')}}">
                                     <i class="fa fa-user text-justify"></i> Profile                     
                                 </a>
                             </li>
@@ -92,9 +92,12 @@
                             <img src="{{asset('public/admin-asset/img/no_img.png')}}" class="img-circle" alt="User Image">
                             @endif
                         </div>
-                        <div class="pull-left info">
+                        <div class="pull-left info">                            
                             <p>@if(!empty(Auth::guard('web')->user())){{Auth::guard('web')->user()->name}}@endif</p>
-                            <a href="{{url('admin/dashboard')}}"><i class="fa fa-circle text-success"></i> {{trans('labels.22')}}</a>
+<!--                            <a href="{{url('admin/dashboard')}}">
+                                <i class="fa fa-circle text-success"></i> 
+                                {{trans('labels.22')}}
+                            </a>-->
                         </div>
                     </div> 
                     @yield('Sidebar-user-panel')  
@@ -107,25 +110,25 @@
           <a href="{{url('Home')}}"><i class="fa fa-dashboard"></i>Dashboard</a>
         </li>
         <li>
-            <a href="#"><i class="fa fa-circle-o"></i>PRODUCT STORE</a>
+            <a href="{{url('product')}}"><i class="fa fa-circle-o"></i>PRODUCT STORE</a>
         </li>  
          <li>
-            <a href="#"><i class="fa fa-circle-o"></i>DOCUMENTS</a>
+            <a href="{{url('document')}}"><i class="fa fa-circle-o"></i>DOCUMENTS</a>
         </li>  
          <li>
-            <a href="#"><i class="fa fa-circle-o"></i>FILE UPLOADER </a>
+            <a href="{{url('file-uploade')}}"><i class="fa fa-circle-o"></i>FILE UPLOADER </a>
         </li>  
         <li>
-            <a href="#"><i class="fa fa-circle-o"></i>TRAINING LIBRARY</a>
+            <a href="{{url('training-libray')}}"><i class="fa fa-circle-o"></i>TRAINING LIBRARY</a>
         </li>  
         <li>
-            <a href="#"><i class="fa fa-circle-o"></i>VIRTUAL MEETING SCHEDULER</a>
+            <a href="{{url('virtual-meeting')}}"><i class="fa fa-circle-o"></i>VIRTUAL MEETING SCHEDULER</a>
         </li>  
         <li>
-            <a href="#"><i class="fa fa-circle-o"></i>FAQ</a>
+            <a href="{{url('faq')}}"><i class="fa fa-circle-o"></i>FAQ</a>
         </li>  
         <li>
-            <a href="#"><i class="fa fa-circle-o"></i>ASSIGNMENT CHECKLIST</a>
+            <a href="{{url('assigment')}}"><i class="fa fa-circle-o"></i>ASSIGNMENT CHECKLIST</a>
         </li>  
          
       </ul>

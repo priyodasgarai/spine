@@ -1,55 +1,48 @@
-@extends('../../master-layout/admin_master')
+@extends('../../master-layout/web_master')
 
 
 @section('title')
-<title>Dashboard</title>
+<title>Spine</title>
+@endsection
+
+@section('Main-content-header')
+ <h1>FILE UPLOADER</h1>
 @endsection
 
 
 @section('Main-content')
   <div class="row">
-          <div class="box box-default">
-            <div class="box-header ">                
+         <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Medical Files</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body with-border dark-color">
-              <div class="callout bg-primary col-md-4">
-                  <a href="{{ url('/admin/users/'.'Enrollments')}}"  class="btn btn-mini" style="margin:1px">
-                      <h3>NEW ENROLLMENTS  </h3><small>(Total {{$enrollments}} User)</small>
+            <!-- form start -->
+            <form role="form" method="post" action="{{url('/document-upload')}}" enctype="multipart/form-data"> 
+                @csrf
+              <div class="box-body">
+                <div class="form-group">
+                  <label>User Name</label>
+                  <input type="text" class="form-control" value="@if(!empty(Auth::guard('web')->user())){{Auth::guard('web')->user()->name}}@endif" disabled/>
+                  <input type="hidden" class="form-control" value="1" name="file_type"/>
+                </div>                
+                <div class="form-group">
+                  <label for="exampleInputFile">Select multiple files file for uploaded</label>
+                  <input type="file" multiple="" name="video"/>
 
-                <p>(NEWEST SIGN UPS)</p>
-                 </a>
+                  <p class="help-block">Upload medical files for Spine Solutions</p>
+                </div>
+                
               </div>
-              <div class="callout bg-primary  col-md-4">
-                   <a href="{{ url('/admin/users/'.'Pending')}}"  class="btn btn-mini" style="margin:1px">
-                <h3>PENDING</h3><small>(Total {{$pending}} User)</small>
+              <!-- /.box-body -->
 
-                <p>(AWAITING PAYMENT OR OTHER)</p>
-                 </a>
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
-              <div class="callout bg-primary col-md-4">
-                   <a href="{{ url('/admin/users/'.'Inactive')}}"  class="btn btn-mini" style="margin:1px">
-                <h3>INACTIVE</h3><small>(Total {{$inactive}} User)</small>
-
-                <p>(30 Days of Inactivity)</p>
-                 </a>
-              </div>
-             
-            </div>
-            <!-- /.box-body -->
-          
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
+            </form>
+          </div>
       </div>
-      <!-- /.row -->
-
 @endsection
-
-
- 
-                           
-                       
 
 
 @section('custom_css')
@@ -57,7 +50,7 @@
 
 
 @section('custom_js')
-
+  
 @endsection
 
 @section('Main-content-error-message')

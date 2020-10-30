@@ -35,6 +35,9 @@
                     <th>Name</th>    
                     <th>Email</th>   
                     <th>Image</th>   
+                    <th>New Enrollments</th>
+                    <th>Pending Status</th>
+                    <th>Inactive Status</th>
                     
                     <th>Status</th>
                     <th>Action</th>
@@ -54,6 +57,28 @@
                      @endif
                     </td>
                     <td>
+                         @if ($data->is_newenrollments==1) 
+                      Yes
+                        @else 
+                       NO
+                        @endif 
+                    </td>   
+                  <td>
+                         @if ($data->is_pending==0) 
+                      Pending
+                        @else 
+                       Not Pending
+                        @endif 
+                    </td>   
+                    <td>
+                         @if ($data->is_inactive==0) 
+                      Inactive
+                        @else 
+                      Not Inactive
+                        @endif 
+                    </td>   
+                     
+                     <td>
                         @if ($data->status==1) 
                         {{trans('labels.26')}} 
                         @else 
@@ -71,8 +96,12 @@
                             <i class="fa fa-circle"></i> {{trans('labels.26')}}     
                         </a>
                         @endif 
-<!--                         &nbsp;&nbsp;
+                         &nbsp;&nbsp;
                          <a href="{{ url('/admin/user-details-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
+                            <i class="fa fa-bookmark"></i> {{trans('labels.44')}}
+                        </a>
+<!--                        &nbsp;&nbsp;
+                         <a href="{{ url('/admin/user-details')}}"  class="btn btn-mini" style="margin:1px">
                             <i class="fa fa-bookmark"></i> {{trans('labels.44')}}
                         </a>-->
                         &nbsp;&nbsp;

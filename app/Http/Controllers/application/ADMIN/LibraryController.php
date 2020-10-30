@@ -4,23 +4,24 @@ namespace App\Http\Controllers\application\ADMIN;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Model\Library;
+//use App\Model\Library;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use App\Model\librarie;
 
 class LibraryController extends Controller
 {
     public function allLibrary() {
         Session::put('page', 'library');
-        $libraries = Library::get();    
+        $libraries = librarie::get();    
         return view('Admin-view.Library.libraries')->with(compact('libraries'));
     }
     public function updateLibraryStatus(Request $request) {
         if ($request->ajax()) {
             $data = $request->all();
-            Library::where('id', $data['library_id'])->update(['status' => $data['status']]);
+            librarie::where('id', $data['library_id'])->update(['status' => $data['status']]);
             $this->result = true;
             $this->message = trans('messages.2');
         } else {
@@ -35,42 +36,42 @@ class LibraryController extends Controller
     public function deleteLibrary($id){            
             $val = explode("||", base64_decode($id));
             $library_id = $val[0]; 
-            Library::where('id',$library_id)->delete();
+            librarie::where('id',$library_id)->delete();
             return redirect()->back()->with('success_message', trans('messages.8'));          
         }
     public function deleteLibraryfile($id) {
         $val = explode("||", base64_decode($id));
         $library_id = $val[0];  
         $file = $val[1];
-        $Librarydata = Library::where('id', $library_id)->first();
+        $Librarydata = librarie::where('id', $library_id)->first();
         //dd($categorydata);
         if($file == 'library_image' ){
         $path = public_path() . trans('labels.100') . $Librarydata->library_image;
         if (file_exists($path) && !empty($Librarydata->library_image)) {
             unlink($path);
         }
-        Library::where('id', $library_id)->update(['library_image' => ""]);
+        librarie::where('id', $library_id)->update(['library_image' => ""]);
         }elseif($file == 'library_video') {
             $path = public_path() . trans('labels.100') . $Librarydata->library_video;
         if (file_exists($path) && !empty($Librarydata->library_video)) {
             unlink($path);
         }
-        Library::where('id', $library_id)->update(['library_image' => ""]);
+        librarie::where('id', $library_id)->update(['library_image' => ""]);
         } 
         return redirect()->back()->with('success_message', trans('messages.18'));
     }
     public function addEditLibrary(Request $request, $id = null) {
         if ($id == "") {
             $title = "Add Library";
-            $Library = new Library();
+            $Library = new librarie();
             $Librarydata = array();          
             $this->message = trans('messages.5');
         } else {
             $title = "Edit Package";
             $val = explode("||", base64_decode($id));
             $Library_id = $val[0];
-            $Librarydata =  Library::where('id',$Library_id)->first();          
-            $Library = Library::findOrFail($Library_id);
+            $Librarydata =  librarie::where('id',$Library_id)->first();          
+            $Library = librarie::findOrFail($Library_id);
             $this->message = trans('messages.16');
         }
        // print_r(Library->id);dd();
@@ -85,7 +86,7 @@ class LibraryController extends Controller
                         'library_video' => 'mimetypes:video/mp4|max:20000',
             ]);
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator);
+                return redirect()->back()->withInput()->withErrors($validator);
             }
             if ($request->hasFile('library_video')) {
                 $image_temp = $request->file('library_video');

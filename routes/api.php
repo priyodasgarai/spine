@@ -14,30 +14,3 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-*/
-Route::get('/new', function( Request $request ){
-    return 'ttttttttttt';
-  });
-//http://localhost/blank_blog_7/api/new
-
-Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function(){
-	Route::get('/new', function( Request $request ){
-    return 'ttttttttttt';
-  });
-  Route::get('/user', function( Request $request ){
-    return $request->user();
-  });
-});
-
-
-
-
-Route::post('login','API\PassportController@login');
-Route::post('register','API\PassportController@register');
-Route::group(['middlewsre' => 'auth:api'], function(){
-    Route::post('get-details','API\PassportController@getDetails');
-});

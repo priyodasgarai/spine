@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Model\admin;
 use Intervention\Image\Facades\Image;
+use App\Model\User;
 
 class AdminController extends Controller {
 
@@ -21,7 +22,13 @@ class AdminController extends Controller {
 
     public function dashboard() {
         Session::put('page','dashboard');
-        return view('Admin-view.dashboard');
+        $condition_pending = array('is_pending' => 0);
+        $condition_enrollments = array('is_newenrollments' => 1);  
+        $condition_inactive = array('is_inactive' => 0);  
+        $pending = User::where($condition_pending)->get()->count();
+        $enrollments = User::where($condition_enrollments)->get()->count();
+        $inactive = User::where($condition_inactive)->get()->count();      
+        return view('Admin-view.dashboard')->with(compact('pending', 'enrollments', 'inactive'));;
     }
 
     public function login(Request $request) {

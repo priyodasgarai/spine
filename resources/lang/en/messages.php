@@ -24,7 +24,7 @@ return [
 21 => 'Package image has been deleted successfully!' ,
 22 => 'user registration successful' ,
 23 => 'user registration failed' ,
-24 => ' ' ,
+24 => '' ,
 25 => ' ' ,
 26 => ' ' ,
 27 => ' ' ,
