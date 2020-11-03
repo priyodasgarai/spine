@@ -178,9 +178,21 @@
                         @endif  
 <li class="nav-link {{$active}}">
                             <a href="{{url('admin/users')}}">
-                                <i class="fa fa-user"></i> <span>Patient</span>                                
+                                <i class="fa fa-user"></i> <span>Manage Patient</span>                                
                             </a>                           
                         </li>
+                        @if(Session::get('page')== "Virtualmeaning")
+                        <?php  $active = "active"; ?>
+                        @else
+                        <?php $active = ""; ?>
+                        @endif  
+                        <li class="nav-link {{$active}}">
+                            <a href="{{url('admin/Virtualmeaning')}}">
+                                <i class="fa fa-empire"></i> <span>Manage VM</span>                                
+                            </a>                           
+                        </li> 
+                        
+                        
                         @if(Session::get('page')== "library")
                         <?php  $active = "active"; ?>
                         @else
@@ -188,7 +200,7 @@
                         @endif  
 <li class="nav-link {{$active}}">
                             <a href="{{url('admin/library')}}">
-                                <i class="fa fa-book"></i> <span>Library</span>                                
+                                <i class="fa fa-book"></i> <span>Manage Library</span>                                
                             </a>                           
                         </li>
                         
@@ -208,11 +220,7 @@
                                 <i class="fa fa-empire"></i> <span>Manage Orders</span>                                
                             </a>                           
                         </li>
-                         <li class="nav-link">
-                            <a href="{{url('admin/virtual-meeting')}}">
-                                <i class="fa fa-empire"></i> <span>Manage Virtual Meeting</span>                                
-                            </a>                           
-                        </li>
+                        
                         <li class="nav-link">
                             <a href="{{url('admin/tasks')}}">
                                 <i class="fa fa-empire"></i> <span>Manage Tasks List</span>                                

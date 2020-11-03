@@ -154,9 +154,7 @@
 <script src="{{asset('public/admin-asset/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('public/admin-asset/js/dataTables.bootstrap.min.js')}}"></script>
 <script>
-$(function () {
-
-$('#programs').DataTable({
+    $('#programs').DataTable({
 'paging': true,
         'lengthChange': true,
         'searching': true,
@@ -164,6 +162,9 @@ $('#programs').DataTable({
         'info': true,
         'autoWidth': true
 })
+$(function () {
+
+
         })
 function change_program_status(id){
                 var dec = window.atob(id);

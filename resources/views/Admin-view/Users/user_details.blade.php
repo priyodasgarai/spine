@@ -14,48 +14,49 @@
 @section('Main-content')
 <div class="row">
     <div class="box-header">              
-        <a  href="{{ url('/admin/user-assign-library-'.base64_encode($user_details->id.'||'.env('APP_KEY')))}}" class="btn btn-mini btn-primary pull-right button_class">Assign library</a>
+        <a  href="{{ url('/admin/user-assign-vm-'.base64_encode($result['user_details']->id.'||'.env('APP_KEY')))}}" class="btn btn-mini btn-primary  button_class">Assign VM</a>
+    <a  href="{{ url('/admin/user-assign-library-'.base64_encode($result['user_details']->id.'||'.env('APP_KEY')))}}" class="btn btn-mini btn-primary pull-right button_class">Assign library</a>
     </div>
     <div class="col-md-6">
-        @if(!empty($user_details))
+        @if(!empty($result['user_details']))
         <!-- Profile Image -->
         <div class="box box-primary">           
             <div class="box-body box-profile">
 
-                @if(!empty($user_details->image))
-                <img class="profile-user-img img-responsive img-circle" src="{{asset(trans('labels.105').$user_details->image)}}" alt="Smiley face">
+                @if(!empty($result['user_details']->image))
+                <img class="profile-user-img img-responsive img-circle" src="{{asset(trans('labels.105').$result['user_details']->image)}}" alt="Smiley face">
                 @else
                 <img class="profile-user-img img-responsive img-circle" src="{{asset('public/admin-asset/img/avatar.png')}}" alt="User profile picture">
                 @endif
 
-                <h3 class="profile-username text-center">{{$user_details->name}}</h3>
+                <h3 class="profile-username text-center">{{$result['user_details']->name}}</h3>
 
 
 
                 <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
-                        <b>Name : </b> <a class="pull-right">{{$user_details->name}}</a>
+                        <b>Name : </b> <a class="pull-right">{{$result['user_details']->name}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Email : </b> <a class="pull-right">{{$user_details->email}}</a>
+                        <b>Email : </b> <a class="pull-right">{{$result['user_details']->email}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Address : </b> <a class="">{{$user_details->address}}</a>
+                        <b>Address : </b> <a class="">{{$result['user_details']->address}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Phon no : </b> <a class="pull-right">{{$user_details->contact_number_1}}</a>
+                        <b>Phon no : </b> <a class="pull-right">{{$result['user_details']->contact_number_1}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Alternative Phone Number : </b> <a class="pull-right">{{$user_details->contact_number_2}}</a>
+                        <b>Alternative Phone Number : </b> <a class="pull-right">{{$result['user_details']->contact_number_2}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Gender : </b> <a class="pull-right">{{$user_details->gender}}</a>
+                        <b>Gender : </b> <a class="pull-right">{{$result['user_details']->gender}}</a>
                     </li>
                     <li class="list-group-item">
-                        <b>Date Of Birth : </b> <a class="pull-right">{{$user_details->date_of_birth}} </a>
+                        <b>Date Of Birth : </b> <a class="pull-right">{{$result['user_details']->date_of_birth}} </a>
                     </li>
                     <li class="list-group-item">
-                        <b>RecNo : </b> <a class="pull-right">{{$user_details->RecNo}}</a>
+                        <b>RecNo : </b> <a class="pull-right">{{$result['user_details']->RecNo}}</a>
                     </li>
 
                 </ul>
@@ -67,9 +68,9 @@
         <!-- /.box -->
     </div> 
     <div class="col-md-6">        
-        @if(count($user_details->user_address)> 0)
+        @if(count($result['user_details']->user_address)> 0)
         <!-- Profile Image -->
-        @foreach($user_details->user_address as $address)
+        @foreach($result['user_details']->user_address as $address)
 
         <div class="box box-primary col-md-6">
 
@@ -123,7 +124,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">User Document </h3>
     </div>
-    @foreach($user_details->user_document as $doc)
+    @foreach($result['user_details']->user_document as $doc)
     <div class="col-md-4">
         <div class="box box-primary">
 
@@ -166,6 +167,72 @@
     </div>
     @endforeach
 </div>     
+
+<div class="row">
+       <div class="box-header with-border">
+             
+              <h3 class="box-title">Course Progress</h3>
+            </div>
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <i class="fa fa-user-circle"></i>
+              <h3 class="box-title">OTVs</h3>
+            </div>
+            <!-- /.box-header -->
+           
+            <div class="box-body">               
+                 @if(!empty($result['assignment_video']))
+                 <?php $sl = 1; ?>
+                 @foreach($result['assignment_video'] as $library)
+                 @if($library->userassignment_status == '0')
+                 <div class="bg-blue col-md-1 badge " style="margin:1px">               
+                <h2><i class="icon fa fa-check"></i> </h2>                
+              </div>
+                @else
+
+                  <div class="bg-blue col-md-1 badge"  style="margin:1px">               
+                  <h2><i class=""></i>{{$library->userassignment_id}}</h2>               
+              </div>
+              @endif
+      <?php $sl++ ;?>
+                 @endforeach
+                 @endif
+            </div>
+            
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+       <div class="box box-default">
+            <div class="box-header with-border">
+              <i class="fa fa-user-circle"></i>
+              <h3 class="box-title">VMs</h3>
+            </div>
+
+           <div class="box-body">
+                 @if(!empty($Virtualmeaning))
+                 <?php $sl = 1; ?>
+                 @foreach($Virtualmeaning as $meaning)
+                 @if (in_array($meaning->id, $user_meaning_id))
+    <div class="bg-blue col-md-1 badge " style="margin:1px">               
+                <h2><i class="icon fa fa-check"></i> </h2>                
+              </div>
+@else
+
+                  <div class="bg-blue col-md-1 badge"  style="margin:1px">               
+                  <h2><i class=""></i>{{$meaning->id}}</h2>               
+              </div>
+              @endif
+      <?php $sl++ ;?>
+                 @endforeach
+                 @endif
+            </div>
+            
+          </div>
+          <!-- /.box -->
+        <!-- /.col -->
+
+      </div>
+      <!-- /.row -->
 
 <div class="row">
 

@@ -14,7 +14,10 @@ use App\Model\Userpackage;
 use Illuminate\Support\Facades\Hash;
 use App\Model\librarie;
 use App\Model\Userlibrary;
+use App\Model\Virtualmeaning;
 use Illuminate\Support\Facades\DB;
+use App\Model\Uservirtualmeaning;
+use App\Model\Userassignment;
 
 class UserController extends Controller {
 
@@ -149,54 +152,113 @@ class UserController extends Controller {
     }
 
     public function getDetails($id) {
+        $User = new User();
         $val = explode("||", base64_decode($id));
         $user_id = $val[0];
-        $user_details = User::with(['user_document', 'user_address', 'library'])->where('id', $user_id)->first();
-
-        $id = array();
-        if (!empty($user_details->library)) {
-            foreach ($user_details->library as $data) {
-                $id[] = $data->id;
+        $user_details = User::with(['user_document', 'user_address', 'Virtualmeaning'])->where('id', $user_id)->first();
+           
+          
+        $user_meaning_id = array();
+        if (!empty($user_details->Virtualmeaning)) {
+            foreach ($user_details->Virtualmeaning as $data) {
+                $user_meaning_id[] = $data->id;
             }
-        }
-        $librarys = librarie::whereNotIn('id', $id)->where('status', 1)->get();
-        $data = array('user_details' => $user_details, 'librarys' => $librarys);
+        }    
+       
+        $assignment_video = $User->assignment($user_meaning_id);
+        $user_video_id = array();
+        if (!empty($assignment_video)) {
+            foreach ($assignment_video as $data) {
+                $user_video_id[] = $data->librarie_id;
+            }
+        }     
+        //dd($assignment_video);
+        $Virtualmeaning = Virtualmeaning::whereNotIn('id', $user_meaning_id)->where('status', 1)->get();
+        $master_librarys = librarie::where('status', 1)->get();        
+        $master_VM = Virtualmeaning::where('status', 1)->get();
+        $librarys = librarie::whereNotIn('id', $user_video_id)->where('status', 1)->get();
+        $data = array('user_details' => $user_details, 
+            'librarys' => $librarys,
+            'master_librarys' => $master_librarys,
+            'user_video_id'=>$user_video_id,
+            'Virtualmeaning' => $Virtualmeaning,
+            'user_meaning_id'=>$user_meaning_id,
+            'master_VM'=>$master_VM ,
+            'assignment_video' => $assignment_video
+                );
         return $data;
     }
 
     public function userDetails($id) {
         $result = $this->getDetails($id);
-        $user_details = $result['user_details'];
-        $librarys = $result['librarys'];
-        return view('Admin-view.Users.user_details')->with(compact('user_details', 'librarys'));
+      //  dd($result['assignment_video']);
+        return view('Admin-view.Users.user_details')->with(compact('result'));
     }
 
     public function userAssignLibrary($id) {
-        $result = $this->getDetails($id);
-        $user_details = $result['user_details'];
-        $librarys = $result['librarys'];
-        //  dd($user_details->library);
-        return view('Admin-view.Users.assign_library')->with(compact('user_details', 'librarys'));
+        $result = $this->getDetails($id);       
+        return view('Admin-view.Users.assign_library')->with(compact('result'));
+    }
+ 
+    public function userAssignVm($id) {
+        $result = $this->getDetails($id);  
+        //dd($result);
+        return view('Admin-view.Users.assign_vm')->with(compact('result'));
     }
 
     public function deleteUserLibrary($id) {
         $val = explode("||", base64_decode($id));
-        $User_id = $val[2];
+        $user_virtualmeaning_id = $val[2];
         $Library_id = $val[0];
-        $condition = array('librarie_id' => $Library_id, 'user_id' => $User_id);
+        $condition = array('librarie_id' => $Library_id, 'user_virtualmeaning_id' => $user_virtualmeaning_id);
         //   dd($condition);
-        Userlibrary::where($condition)->delete();
+        Userassignment::where($condition)->delete();
         return redirect()->back()->with('success_message', trans('messages.8'));
     }
+    
+    public function deleteUserVm($id) {
+        $val = explode("||", base64_decode($id));
+        $User_id = $val[2];
+        $vm_id = $val[0];
+        $condition = array('virtualmeaning_id' => $vm_id, 'user_id' => $User_id);
+        //   dd($condition);
+        Uservirtualmeaning::where($condition)->delete();
+        return redirect()->back()->with('success_message', trans('messages.8'));
+    }
+    
     public function addUserLibrary(Request $request){
         if ($request->ajax()) {
             $data = $request->all();           
             if(is_array($data['librarie_id'])){               
                 foreach($data['librarie_id'] as $librarie_id){
-                    $Userlibrarie = new Userlibrary;
-                    $Userlibrarie->user_id = $data['user_id'];
+                    $Userlibrarie = new Userassignment;
+                    $Userlibrarie->user_virtualmeaning_id = $data['vm_id'];
                     $Userlibrarie->librarie_id = $librarie_id;
                     $this->result = $Userlibrarie->save();
+                } 
+            }
+            $this->result = true;
+            $this->message = trans('messages.5');
+        } else {
+            $this->result = FALSE;
+            $this->message = trans('messages.6');
+        }
+        return Response::make([
+                    'result' => $this->result,
+                    'message' => $this->message
+        ]);
+    }
+    
+     public function addUserVm(Request $request){
+        if ($request->ajax()) {
+            $data = $request->all();           
+            if(is_array($data['vm_id'])){               
+                foreach($data['vm_id'] as $vm_id){
+                    $Uservirtualmeaning = new Uservirtualmeaning;
+                    $Uservirtualmeaning->user_id = $data['user_id'];
+                    $Uservirtualmeaning->virtualmeaning_id = $vm_id;
+                    $Uservirtualmeaning->slotDate = now();
+                    $this->result = $Uservirtualmeaning->save();
                 } 
             }
             $this->result = true;

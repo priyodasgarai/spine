@@ -42,6 +42,7 @@ Route::group(["namespace" => "application\WEB"], function() {
         Route::get('/delete-file-{id}', 'WebController@delete_file');
         Route::post('/document-upload', 'WebController@document_uplodas');
         Route::get('/training-libray', 'WebController@training_libray');
+        Route::post('/update-traininglibray-status', 'WebController@updateTrainingLibrayStatus');
         Route::get('/add-address', 'WebController@add_address');
         Route::post('/post-add-address', 'WebController@post_add_address');
          Route::get('/delete-address-{id}', 'WebController@delete_address');
@@ -102,6 +103,10 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function() {
         Route::get('user-assign-library-{id}', 'UserController@userAssignLibrary');
         Route::get('user-library-delete-{id}', 'UserController@deleteUserLibrary');
         Route::post('user-library-add', 'UserController@addUserLibrary');
+        
+        Route::get('user-assign-vm-{id}', 'UserController@userAssignVm');
+        Route::get('user-vm-delete-{id}', 'UserController@deleteUserVm');
+        Route::post('user-vm-add', 'UserController@addUserVm');
 
 
         /*         * **************************************Sections********************************************* */
@@ -125,15 +130,20 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function() {
         Route::get('delete-library-{id}', 'LibraryController@deleteLibrary');
 
         /*         * **************************************************************************************** */
+        Route::get('Virtualmeaning', 'VirtualmeaningController@allVirtualmeaning');
+        Route::post('update-Virtualmeaning-status', 'VirtualmeaningController@updateVirtualmeaningStatus');
+        Route::match(['get', 'post'], 'add-edit-Virtualmeaning/{id?}', 'VirtualmeaningController@addEditVirtualmeaning');
+        Route::get('delete-program-{id}', 'VirtualmeaningController@deleteVirtualmeaning');
+        /*         * **************************************Library********************************************* */
         Route::get('/products', function () {
             return view('Admin-view.product.products');
         });
         Route::get('/social-media', function () {
             return view('Admin-view.socialmedia.social_media');
         });
-        Route::get('/virtual-meeting', function () {
-            return view('Admin-view.virtualmeeting.virtual_meeting');
-        });
+//        Route::get('/virtual-meeting', function () {
+//            return view('Admin-view.virtualmeeting.virtual_meeting');
+//        });
         Route::get('/tasks', function () {
             return view('Admin-view.task.tasks');
         });

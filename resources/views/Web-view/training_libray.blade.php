@@ -12,11 +12,12 @@
 
 @section('Main-content')
    <div class="row">
-        @if(count($result['user_details']->library) > 0)
-         @foreach($result['user_details']->library as $library)
+        @if(count($result['assignment_video']) > 0)
+         @foreach($result['assignment_video'] as $library)
                         <div class="col-md-4">
                             <!-- AREA CHART -->
-                            <div class="box">            
+                            <div class="box">                                 
+                                <input type="hidden" id="library_{{$library->id}}" value="{{json_encode($library)}}"/>
                                 <div class="box-body">
                                      @if(!empty($library->library_image))                                
                                 <img class="img-responsive" style="width:320px" src="{{asset(trans('labels.107').$library->library_image)}}" alt="Image">
@@ -35,7 +36,7 @@
                                 <!-- /.box-body -->
                                 @if(!empty($library->library_video))
                                  <div>                                     
-                                     <a href="#"  onclick="play_video('{{$library->library_video}}')" class="btn btn-primary">Play</a> 
+                                     <a href="#"  onclick="play_video('{{$library->id}}')" class="btn btn-primary">Play</a> 
                                  </div>
                                @endif
                                
@@ -83,9 +84,39 @@
 @section('custom_js')
 <script>
      let link = "{{asset(trans('labels.107'))}}"; 
-function play_video(video){   
+function play_video(id){   
+    
+    let data_details = $("#library_" + id).val();
+    let output = $.parseJSON(data_details);
+     console.log(output);
+  //  alert(output.librarie_id);
+    // alert(output);
+     let librarie_id = output.userassignment_id;
+    $.post('update-traininglibray-status',
+
+            {
+
+            "_token": "{{ csrf_token() }}", 
+            librarie_id: librarie_id,
+            }, function (data, status, xhr) {
+            console.log(data);
+
+                    if (data.result == true) {
+          //  location.reload();
+                    swal("{{trans('messages.1')}}", data.message, "success");
+
+            } else {
+          //  location.reload();
+                    swal("{{trans('messages.4')}}", data.message, "error");
+
+            }
+
+            })
+            
+            
+    
     $("#video1").html('');  
-    var file = link +'/'+ video;  
+    var file = link +'/'+ output.library_video;  
     var source = "<source src="+file+" type='video/mp4'></source>";  
     $("#video1").html(source );
     $('#myModal').modal('show');

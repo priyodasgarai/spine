@@ -16,7 +16,7 @@
 
 @section('Main-content-header')
 
-<h1>Assign Video To User</h1>
+<h1>Assign Virtual Meeting To User</h1>
 
 @endsection
 
@@ -56,7 +56,7 @@
 
 
 
-                <span class="btn btn-primary btn-block"><b>Assign Video</b></span>
+                <span class="btn btn-primary btn-block"><b>Assign VM</b></span>
 
 
 
@@ -64,7 +64,7 @@
 
 
 
-                @if(count($result['assignment_video']) > 0)
+                @if(count($result['user_details']->Virtualmeaning) > 0)
 
                 <table id="Assign_library" class="table table-bordered table-striped">
 
@@ -72,18 +72,9 @@
 
                         <tr>
 
-                            <th>ID</th>
-                            
-                            <th>VM Name</th> 
-                            
-                            <th>Video Name</th>   
-
-                            <th>Video</th> 
-
-                            <th>Image</th> 
-
-                            <th>Amount</th>  
-
+                            <th>ID</th>                       
+                            <th>Name</th>
+                            <th>Description</th>
                             <th>Delete</th>
 
 
@@ -94,66 +85,23 @@
 
                     <tbody>
 
-                        @foreach($result['assignment_video'] as $library)
+                        @foreach($result['user_details']->Virtualmeaning as $data)
 
                         <tr>     
 
-                            <td>{{$library->id}}</td>
-                            <td>{{$library->vm_name}}</td>                           
+                           <td>{{ucwords($data->id)}}</td>
+                    <td>{{ucwords($data->vm_name)}}</td>                    
+                    <td>{{ucwords($data->description)}}</td>    
+
+                           
                             
-                            <td>{{$library->name}}</td>                    
-
-                            <td> 
-
-                                @if(!empty($library->library_video))
-
-                                <video width="320" height="240" controls>
-
-                                    <source src="{{asset(trans('labels.107').$library->library_video)}}" type="video/mp4">
-
-                                </video>
-
-
-
-                                @else
-
-                                <img class="img-responsive" style="width:30px; margin-top: 5px" src="{{asset('public/admin-asset/img/no_img.png')}}" alt="video">
-
-                                <hr>
-
-                                @endif
-
-                            </td>  
-
-                            <td>
-
-                                @if(!empty($library->library_image))                                
-
-                                <img class="img-responsive" style="width:70px; margin-top: 5px" src="{{asset(trans('labels.107').$library->library_image)}}" alt="Image">
-
-                                @else
-
-                                <img class="img-responsive" style="width:30px; margin-top: 5px" src="{{asset('public/admin-asset/img/no_img.png')}}" alt="Image">
-
-                                <hr>
-
-                                @endif
-
-                            </td>  
-
-                            <td>
-
-                                {{$library->price}}
-
-                            </td>              
-
 
 
                             <td>
 
                                 <a onclick="return confirm('Are you sure you want to permanently delete this row?');" 
 
-                                   href="{{ url('/admin/user-library-delete-'.base64_encode($library->librarie_id.'||'.env('APP_KEY').'||'.$library->user_virtualmeaning_id))}}"  class="btn btn-mini" style="margin:1px">
+                                   href="{{ url('/admin/user-vm-delete-'.base64_encode($data->id.'||'.env('APP_KEY').'||'.$result['user_details']->id))}}"  class="btn btn-mini" style="margin:1px">
 
                                     <i class="fa fa-trash"></i> Delete
 
@@ -173,7 +121,7 @@
 
                 @else
 
-                <h2> No video assign </h2>
+                <h2> No VM assign </h2>
 
                 @endif
 
@@ -207,40 +155,19 @@
 
     <!-- /.box-header -->           
 
-    @if(count($result['librarys']) > 0)
- <div class="row">
-      @if(count($result['user_details']->Virtualmeaning) > 0)
-                <div class="form-group">
-                  <label class="col-md-2">Select #VM</label>                  
-                  <select class="col-md-8" id="vm_id">
-                      <option value="0">Select Virtual Meeting</option>
-                      @foreach($result['user_details']->Virtualmeaning as $data)
-                      <option value="{{$data->id}}">{{$data->vm_name}}</option>
-                       @endforeach
-                  </select>
-                </div>
-       @else
-                <h2> No VM assign </h2>
-                @endif
-            </div>
+    @if(count($result['Virtualmeaning']) > 0)
+
     <div class="box-body">
-       
-        <table id="All_library" class="table table-bordered table-striped">
+
+        <table id="All_VM" class="table table-bordered table-striped">
 
             <thead>
 
                 <tr style="text-align: center">
 
-                    <th>ID</th>
-
-                    <th>Video Name</th>   
-
-                    <th>Video</th> 
-
-                    <th>Image</th> 
-
-                    <th>Amount</th>                 
-
+                    <th>ID</th>                       
+                            <th>Name</th>
+                            <th>Description</th>
 
 
                 </tr>
@@ -251,7 +178,7 @@
 
 
 
-                @foreach($result['librarys'] as $library)
+                @foreach($result['Virtualmeaning'] as $data)
 
 
 
@@ -259,53 +186,11 @@
 
                 <tr>               
 
-                    <td><input type="checkbox" class="checkBoxClass" name="library[]" value="{{$library->id}}"></td>
+                    <td><input type="checkbox" class="checkBoxClass" name="library[]" value="{{$data->id}}"></td>
 
-                    <td>{{$library->name}}</td>                    
-
-                    <td> 
-
-                        @if(!empty($library->library_video))
-
-                        <video width="320" height="240" controls>
-
-                            <source src="{{asset(trans('labels.107').$library->library_video)}}" type="video/mp4">
-
-                        </video>
-
-
-
-                        @else
-
-                        <img class="img-responsive" style="width:30px; margin-top: 5px" src="{{asset('public/admin-asset/img/no_img.png')}}" alt="video">
-
-                        <hr>
-
-                        @endif
-
-                    </td>  
-
-                    <td>
-
-                        @if(!empty($library->library_image))                                
-
-                        <img class="img-responsive" style="width:70px; margin-top: 5px" src="{{asset(trans('labels.107').$library->library_image)}}" alt="Image">
-
-                        @else
-
-                        <img class="img-responsive" style="width:30px; margin-top: 5px" src="{{asset('public/admin-asset/img/no_img.png')}}" alt="Image">
-
-                        <hr>
-
-                        @endif
-
-                    </td>  
-
-                    <td>
-
-                        {{$library->price}}
-
-                    </td>              
+                  
+                    <td>{{ucwords($data->vm_name)}}</td>                    
+                    <td>{{ucwords($data->description)}}</td>    
 
 
 
@@ -325,7 +210,7 @@
 
     @else
 
-    <h2>No video available</h2>
+    <h2>No VM available</h2>
 
     @endif
 
@@ -373,7 +258,7 @@
 
 //    });
 
-            $('#All_library').DataTable({
+            $('#All_VM').DataTable({
 
             'paging': true,
 
@@ -403,29 +288,25 @@
 
     });
 
-            // console.log(chkArray);
+             console.log(chkArray);
 
             if (chkArray.length != 0){
 
-    var library_id = chkArray;
+            var library_id = chkArray;
 
-            var vm_id = $("#vm_id").val();
-            //console.log(vm_id);
-            if(vm_id == "0"){
-                alert("Please select Virtual Meeting");
-                return false;
-            }
+            var user_id = {{$result['user_details']->id}};
+
             
 
-        $.post('user-library-add',
+        $.post('user-vm-add',
 
             {
 
             "_token": "{{ csrf_token() }}",
 
-            vm_id: vm_id,
+            user_id: user_id,
 
-            librarie_id: library_id,
+            vm_id: library_id,
 
             }, function (data, status) {
 

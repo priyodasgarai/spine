@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\application\ADMIN\UserController;
+use App\Model\Userassignment;
 
 class WebController extends Controller {
 
@@ -237,9 +238,24 @@ class WebController extends Controller {
         } else {
             $id = NULL;
         }
-        $result = $UserController->getDetails($id);
-        //return $result['user_details']->library;
+        $result = $UserController->getDetails($id);       
         return view('Web-view.training_libray')->with(compact('result'));
+    }
+      public function updateTrainingLibrayStatus(Request $request) {
+        if ($request->ajax()) {
+            $data = $request->all();
+           // dd($data);
+            Userassignment::where('id', $data['librarie_id'])->update(['status' => 0]);
+            $this->result = true;
+            $this->message = trans('messages.2');
+        } else {
+            $this->result = FALSE;
+            $this->message = trans('messages.3');
+        }
+        return Response::make([
+                    'result' => $this->result,
+                    'message' => $this->message
+        ]);
     }
 
     /*     * ****************************************** */
