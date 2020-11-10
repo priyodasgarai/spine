@@ -245,7 +245,7 @@ class WebController extends Controller {
         if ($request->ajax()) {
             $data = $request->all();
            // dd($data);
-            Userassignment::where('id', $data['librarie_id'])->update(['status' => 0]);
+            Userassignment::where('id', $data['librarie_id'])->update(['status' => 2,'score'=>10]);
             $this->result = true;
             $this->message = trans('messages.2');
         } else {

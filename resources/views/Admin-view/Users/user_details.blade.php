@@ -13,10 +13,10 @@
 
 @section('Main-content')
 <div class="row">
-    <div class="box-header">              
+<!--    <div class="box-header">              
         <a  href="{{ url('/admin/user-assign-vm-'.base64_encode($result['user_details']->id.'||'.env('APP_KEY')))}}" class="btn btn-mini btn-primary  button_class">Assign VM</a>
     <a  href="{{ url('/admin/user-assign-library-'.base64_encode($result['user_details']->id.'||'.env('APP_KEY')))}}" class="btn btn-mini btn-primary pull-right button_class">Assign library</a>
-    </div>
+    </div>-->
     <div class="col-md-6">
         @if(!empty($result['user_details']))
         <!-- Profile Image -->

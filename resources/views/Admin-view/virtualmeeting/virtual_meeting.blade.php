@@ -17,7 +17,7 @@
           <div class="box">
             <div class="box-header">
 <!--              <h3 class="box-title">Responsive Hover Table</h3>-->
-            <a  href="{{url('/admin/add-edit-Virtualmeaning')}}" class="btn btn-mini btn-primary pull-right button_class">{{trans('labels.31')}}</a>
+            <a  href="{{url('/admin/add-edit-Virtual')}}" class="btn btn-mini btn-primary pull-right button_class">{{trans('labels.31')}}</a>
 <!--              <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
                   <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
@@ -64,11 +64,11 @@
                         </a>
                         @endif  
                         &nbsp;&nbsp;
-                        <a href="{{ url('/admin/add-edit-Virtualmeaning/'.base64_encode($data->id.'||'.env('APP_KEY')))}}"   class="btn btn-mini mergin_one" >
+                        <a href="{{ url('/admin/add-edit-Virtual/'.base64_encode($data->id.'||'.env('APP_KEY')))}}"   class="btn btn-mini mergin_one" >
                             <i class="fa fa-edit"></i> {{trans('labels.28')}}
                         </a>
                         &nbsp;&nbsp;
-                        <a onclick="return confirm('{{trans('labels.32')}}');" href="{{ url('/admin/delete-Virtualmeaning-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
+                        <a onclick="return confirm('{{trans('labels.32')}}');" href="{{ url('/admin/delete-Virtual-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
                             <i class="fa fa-trash"></i> {{trans('labels.29')}}
                         </a>
                         &nbsp;&nbsp; 
@@ -124,7 +124,7 @@
             } else{
             var status = 1;
             }
-$.post('update-Virtualmeaning-status',
+$.post('update-Virtual-status',
 {
         "_token": "{{ csrf_token() }}",
         Virtualmeaning_id: data_id,

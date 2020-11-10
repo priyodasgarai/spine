@@ -56,22 +56,38 @@ class User extends Authenticatable
      public function user_address(){
         return $this->hasMany(user_address::class,'user_id','id');
     }
-//    public function library() {
-//        return $this->belongsToMany(librarie::class, 'user_librarie');
-//    }    
-    public function Virtualmeaning() {
-        return $this->belongsToMany(Virtualmeaning::class, 'user_virtualmeaning');
+    public function user_metting() {
+        return $this->hasMany(Uservirtualmeaning::class,'user_id','id');
+    }    
+    
+    public function virtualMeeting() {
+        return $this->belongsToMany(Virtualmeaning::class, 'user_virtualmeaning')->using(Uservirtualmeaning::class);
     }
     
-    public function assignment($id){
+    public function assignment($id,$assign_type=null){
         $userassignment = DB::table('userassignment as us');
         $userassignment->select('us.*','us.id as userassignment_id','us.status as userassignment_status', 'li.*','vm.vm_name'); 
-        $userassignment->leftJoin('user_virtualmeaning as uv', 'uv.id', '=', 'us.user_virtualmeaning_id');
+        $userassignment->leftJoin('user_virtualmeaning as uv', 'uv.id', '=', 'us.user_virtual_id');
         $userassignment->leftJoin('virtualmeanings as vm', 'uv.virtualmeaning_id', '=', 'vm.id');
         $userassignment->leftJoin('libraries as li', 'li.id', '=', 'us.librarie_id');
-       // $userassignment->where('us.status', '=',1);
-        $userassignment->whereIn('us.user_virtualmeaning_id',$id);
+        if(isset($assign_type)){
+            $userassignment->where('us.assign_type',$assign_type);
+        }
+        // $userassignment->where('us.status', '=',1);
+        $userassignment->whereIn('us.user_virtual_id',$id);
         $result = $userassignment->get();        
         return $result;
     }
-}  //hasManyThrough
+//     public function vm_status($id){
+//        $userassignment = DB::table('userassignment');
+//        $userassignment->select('user_virtualmeaning_id', DB::raw('(CASE WHEN count(*) = "Null" THEN "0" ELSE "1" END) as tt'));                 
+//        $userassignment->groupBy('user_virtualmeaning_id');
+//        $userassignment->where('statuss', '=',0);      
+//        $userassignment->whereIn('user_virtualmeaning_id',$id);
+//        $result = $userassignment->get();        
+//        return $result;
+//    }
+    
+    
+    
+} 

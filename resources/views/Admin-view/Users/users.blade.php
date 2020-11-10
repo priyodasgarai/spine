@@ -21,10 +21,10 @@
 
 @section('Main-content')
 <div class="box">
-    <div class="box-header">
+<!--    <div class="box-header">
         <h3 class="box-title">Data Table With Full Features</h3>
         <a  href="{{url('/admin/add-edit-user')}}" class="btn btn-mini btn-primary pull-right button_class">{{trans('labels.31')}}</a>
-    </div>
+    </div>-->
     <!-- /.box-header -->           
     @if(!empty($users))
     <div class="box-body">
@@ -98,16 +98,16 @@
                         @endif 
                          &nbsp;&nbsp;
                          <a href="{{ url('/admin/user-details-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
-                            <i class="fa fa-bookmark"></i> {{trans('labels.44')}}
+                            <i class="fa fa-map"></i> {{trans('labels.44')}}
+                        </a>
+                        &nbsp;&nbsp;
+                          <a href="{{ url('/admin/user-uprightly-score-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
+                            <i class="fa fa-pie-chart"></i> Uprightly Score
                         </a>
 <!--                        &nbsp;&nbsp;
-                         <a href="{{ url('/admin/user-details')}}"  class="btn btn-mini" style="margin:1px">
-                            <i class="fa fa-bookmark"></i> {{trans('labels.44')}}
-                        </a>-->
-                        &nbsp;&nbsp;
                         <a href="{{ url('/admin/add-edit-user/'.base64_encode($data->id.'||'.env('APP_KEY')))}}"   class="btn btn-mini mergin_one" >
                             <i class="fa fa-edit"></i> {{trans('labels.28')}}
-                        </a>
+                        </a>-->
                         &nbsp;&nbsp;
                         <a onclick="return confirm('{{trans('labels.32')}}');" href="{{ url('/admin/delete-user-'.base64_encode($data->id.'||'.env('APP_KEY')))}}"  class="btn btn-mini" style="margin:1px">
                             <i class="fa fa-trash"></i> {{trans('labels.29')}}

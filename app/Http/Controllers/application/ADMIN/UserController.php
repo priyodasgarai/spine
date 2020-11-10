@@ -126,7 +126,7 @@ class UserController extends Controller {
             $User->name = $data['name'];
             $User->email = $data['email'];
             $User->password = Hash::make(123456);
-            ;
+       
             $User->status = 1;
             $result = $User->save();
             if ($result == true) {
@@ -155,25 +155,26 @@ class UserController extends Controller {
         $User = new User();
         $val = explode("||", base64_decode($id));
         $user_id = $val[0];
-        $user_details = User::with(['user_document', 'user_address', 'Virtualmeaning'])->where('id', $user_id)->first();
-           
-          
-        $user_meaning_id = array();
-        if (!empty($user_details->Virtualmeaning)) {
-            foreach ($user_details->Virtualmeaning as $data) {
-                $user_meaning_id[] = $data->id;
+        $user_details = User::with(['user_document', 'user_address', 'virtualMeeting','user_metting'])->where('id', $user_id)->first();
+             $user_virtual_id = array();
+        $user_assign_id = array();
+        if (!empty($user_details->user_metting)) {
+            foreach ($user_details->user_metting as $data) {
+               $user_virtual_id[] = $data->virtualmeaning_id;
+                $user_assign_id[] = $data->id;
             }
-        }    
-       
-        $assignment_video = $User->assignment($user_meaning_id);
+        }   
+        
+        $assignment_video = $User->assignment($user_assign_id);
         $user_video_id = array();
         if (!empty($assignment_video)) {
             foreach ($assignment_video as $data) {
                 $user_video_id[] = $data->librarie_id;
             }
         }     
-        //dd($assignment_video);
-        $Virtualmeaning = Virtualmeaning::whereNotIn('id', $user_meaning_id)->where('status', 1)->get();
+        $VirtualMeeting  = Virtualmeaning::whereNotIn('id', $user_virtual_id)->where('status', 1)->get();
+      $EducationScore = Userassignment::whereIn('user_virtual_id', $user_assign_id)->where('status', 2)->sum('score');
+      //dd($EducationScore);
         $master_librarys = librarie::where('status', 1)->get();        
         $master_VM = Virtualmeaning::where('status', 1)->get();
         $librarys = librarie::whereNotIn('id', $user_video_id)->where('status', 1)->get();
@@ -181,12 +182,19 @@ class UserController extends Controller {
             'librarys' => $librarys,
             'master_librarys' => $master_librarys,
             'user_video_id'=>$user_video_id,
-            'Virtualmeaning' => $Virtualmeaning,
-            'user_meaning_id'=>$user_meaning_id,
+            'Virtualmeaning' => $VirtualMeeting,
+            'user_meaning_id'=>$user_assign_id,
             'master_VM'=>$master_VM ,
-            'assignment_video' => $assignment_video
+            'assignment_video' => $assignment_video,
+            'EducationScore'=>$EducationScore
                 );
         return $data;
+    }
+    
+    public function userUprightlyScore($id){
+       $result = $this->getDetails($id);  
+    //   dd($result->Virtualmeaning);
+        return view('Admin-view.Users.UprightlyScore.UprightlyScore')->with(compact('result'));
     }
 
     public function userDetails($id) {
@@ -210,7 +218,7 @@ class UserController extends Controller {
         $val = explode("||", base64_decode($id));
         $user_virtualmeaning_id = $val[2];
         $Library_id = $val[0];
-        $condition = array('librarie_id' => $Library_id, 'user_virtualmeaning_id' => $user_virtualmeaning_id);
+        $condition = array('librarie_id' => $Library_id, 'user_virtual_id' => $user_virtualmeaning_id);
         //   dd($condition);
         Userassignment::where($condition)->delete();
         return redirect()->back()->with('success_message', trans('messages.8'));
@@ -228,12 +236,21 @@ class UserController extends Controller {
     
     public function addUserLibrary(Request $request){
         if ($request->ajax()) {
-            $data = $request->all();           
-            if(is_array($data['librarie_id'])){               
+            $data = $request->all();
+              if(is_array($data['librarie_id'])){ 
+                $virtualmeaning_id =  $data['vm_id'];
+                $user_id =  $data['user_id'];
+                $condition = array('virtualmeaning_id' => $virtualmeaning_id, 'user_id' => $user_id);                
+                $Uservirtualmeaning = Uservirtualmeaning::where($condition)->first();
+               // dd($Uservirtualmeaning);
+                $user_virtual_id = $Uservirtualmeaning->id;
                 foreach($data['librarie_id'] as $librarie_id){
                     $Userlibrarie = new Userassignment;
-                    $Userlibrarie->user_virtualmeaning_id = $data['vm_id'];
+                    $Userlibrarie->user_virtual_id = $user_virtual_id;
                     $Userlibrarie->librarie_id = $librarie_id;
+                    $Userlibrarie->assign_type = 1;
+                    $Userlibrarie->status = 1;
+                     //dd($Userlibrarie);
                     $this->result = $Userlibrarie->save();
                 } 
             }

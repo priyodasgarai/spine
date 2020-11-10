@@ -84,14 +84,15 @@
 @section('custom_js')
 <script>
      let link = "{{asset(trans('labels.107'))}}"; 
-function play_video(id){   
-    
+function play_video(id){ 
+    $("#video1").html('');
     let data_details = $("#library_" + id).val();
     let output = $.parseJSON(data_details);
      console.log(output);
   //  alert(output.librarie_id);
     // alert(output);
      let librarie_id = output.userassignment_id;
+     let library_video = output.library_video;
     $.post('update-traininglibray-status',
 
             {
@@ -103,11 +104,11 @@ function play_video(id){
 
                     if (data.result == true) {
           //  location.reload();
-                    swal("{{trans('messages.1')}}", data.message, "success");
+                 //   swal("{{trans('messages.1')}}", data.message, "success");
 
             } else {
           //  location.reload();
-                    swal("{{trans('messages.4')}}", data.message, "error");
+             //       swal("{{trans('messages.4')}}", data.message, "error");
 
             }
 
@@ -116,8 +117,8 @@ function play_video(id){
             
     
     $("#video1").html('');  
-    var file = link +'/'+ output.library_video;  
-    var source = "<source src="+file+" type='video/mp4'></source>";  
+    let file = link +'/'+ library_video;  
+    let source = "<source src="+file+" type='video/mp4'></source>";  
     $("#video1").html(source );
     $('#myModal').modal('show');
 }

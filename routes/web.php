@@ -103,7 +103,13 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function() {
         Route::get('user-assign-library-{id}', 'UserController@userAssignLibrary');
         Route::get('user-library-delete-{id}', 'UserController@deleteUserLibrary');
         Route::post('user-library-add', 'UserController@addUserLibrary');
-        
+         /**********************Uprightly Score**********************************/
+        Route::get('user-uprightly-score-{id}', 'UserController@userUprightlyScore');
+        Route::get('user-education-score-{id}', 'UserController@userEducationScore');
+        Route::get('user-symptom-control-score-{id}', 'UserController@userSymptomControlScore');
+        Route::get('user-verticality-score-{id}', 'UserController@userVerticalityScore');
+        Route::get('user-shape-score-{id}', 'UserController@userShapeScore');
+        /*******************************************************/
         Route::get('user-assign-vm-{id}', 'UserController@userAssignVm');
         Route::get('user-vm-delete-{id}', 'UserController@deleteUserVm');
         Route::post('user-vm-add', 'UserController@addUserVm');
@@ -130,11 +136,18 @@ Route::prefix('admin')->namespace('application\ADMIN')->group(function() {
         Route::get('delete-library-{id}', 'LibraryController@deleteLibrary');
 
         /*         * **************************************************************************************** */
-        Route::get('Virtualmeaning', 'VirtualmeaningController@allVirtualmeaning');
-        Route::post('update-Virtualmeaning-status', 'VirtualmeaningController@updateVirtualmeaningStatus');
-        Route::match(['get', 'post'], 'add-edit-Virtualmeaning/{id?}', 'VirtualmeaningController@addEditVirtualmeaning');
-        Route::get('delete-program-{id}', 'VirtualmeaningController@deleteVirtualmeaning');
+        Route::get('Virtual', 'VirtualmeaningController@allVirtualmeaning');
+        Route::post('update-Virtual-status', 'VirtualmeaningController@updateVirtualmeaningStatus');
+        Route::match(['get', 'post'], 'add-edit-Virtual/{id?}', 'VirtualmeaningController@addEditVirtualmeaning');
+        Route::get('delete-Virtual-{id}', 'VirtualmeaningController@deleteVirtualmeaning');
         /*         * **************************************Library********************************************* */
+        
+        /**********************Uprightly Score**********************************/
+        
+        
+        /*******************************************************/
+        
+        
         Route::get('/products', function () {
             return view('Admin-view.product.products');
         });

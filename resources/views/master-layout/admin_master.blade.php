@@ -187,7 +187,7 @@
                         <?php $active = ""; ?>
                         @endif  
                         <li class="nav-link {{$active}}">
-                            <a href="{{url('admin/Virtualmeaning')}}">
+                            <a href="{{url('admin/Virtual')}}">
                                 <i class="fa fa-empire"></i> <span>Manage VM</span>                                
                             </a>                           
                         </li> 
